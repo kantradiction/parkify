@@ -8,6 +8,13 @@
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
+    <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/js/foundation.min.js" crossorigin="anonymous"></script>
+    <!-- Compressed CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css" crossorigin="anonymous" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <!--
@@ -26,15 +33,61 @@
       You need to enable JavaScript to run this app.
     </noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <!--TOPBAR NAVIGATION =======================================================-->
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <ul class="dropdown menu" data-dropdown-menu>
+            <li class="menu-text"><a href="/">Parkify</a></li>
+        </ul>
+      </div>
+      <div class="top-bar-right">
+        <ul class="dropdown menu" data-dropdown-menu>
+          <li><a href="/get-owners">Get Owners</a>
+          </li>
+          <li><a href="/get-drivers">Get Drivers</a>
+          </li>
+          <li><a href="/get-parking-spots">Get Parking Spots</a>
+          </li>
+          <li><a href="/get-vehicles">Get Vehicles</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!--END TOPBAR NAVIGATION ====================================================-->
+    <div class="row">
+      <div class="medium-6 columns">
+          <div class="callout primary">
+              <div class="row">
+                <div class="medium-12 columns">
+                    <h3>Create Things</h3>
+                </div>
+                <div class="medium-12 columns">
+                    <a class="button primary" href="#" id="create-owner">Owner</a>
+                    <a class="button primary" href="#" id="create-driver">Driver</a>
+                    <a class="button primary" href="#" id="create-parking-spot">Parking Spot</a>
+                    <a class="button primary" href="#" id="create-vehicle">Vehicle</a>
+                </div>
+              </div>
+          </div>
+      </div>
+    </div>
+    <script>
+      $("#create-owner").on("click", function() {
+          $.post("/create-driver");
+      })
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+      $("#create-driver").on("click", function() {
+          $.post("/create-driver");
+      })
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+      $("#create-parking-spot").on("click", function() {
+          $.post("/create-parking-spot");
+      })
+
+      $("#create-vehicle").on("click", function() {
+          $.post("/create-vehicle");
+      })
+    </script>
+    <!-- Compressed JavaScript -->
   </body>
 </html>
