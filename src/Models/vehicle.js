@@ -6,7 +6,10 @@ var Schema = mongoose.Schema;
 // Using the Schema constructor, create a new VehicleSchema object
 // This is similar to a Sequelize model
 var VehicleSchema = new Schema({
-    driverID: {},
+    driverID: {
+        type: Schema.Types.ObjectId,
+        ref: "Driver"
+    },
     make: {
         type: String,
         trim: true,
