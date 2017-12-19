@@ -40,35 +40,44 @@ var OwnerSchema = new Schema({
     trim: true,
     required: "First Name is Required",
   },
-  address: {
-    street: {
-        type: String,
-        required: true
-    },
-    city: {
-        type: String,
-        required: true
-    },
-    state: {
-        type: String,
-        required: true
-    },
-    zip: {
-        type: Number,
-        required: true
-    }
+  street: {
+    type: String,
+    required: true
+  },
+  city: {
+    type: String,
+    required: true
+  },
+  state: {
+    type: String,
+    required: true
+  },
+  zip: {
+    type: Number,
+    required: true
+  },
+  lat: {
+    type: Number
+  },
+  lng: {
+    type: Number
   },
   phoneNumber: {
     type: String,
-    validate: {
+    /*validate: {
       validator: function(v) {
         return /\d{3}-\d{3}-\d{4}/.test(v);
       },
       message: '{VALUE} is not a valid phone number!'
-    },
+    },*/
     required: [true, 'User phone number required']
   },
-  parkingSpots: [],  
+  parkingSpots: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "ParkingSpot"
+    }
+  ],  
   // `date` must be of type Date. The default value is the current date
   ownerCreated: {
     type: Date,

@@ -40,35 +40,44 @@ var DriverSchema = new Schema({
     trim: true,
     required: "Last Name is Required",
   },
-  address: {
-    street: {
-        type: String,
-        required: "Address is Required"
-    },
-    city: {
-        type: String,
-        required: "City is Required"
-    },
-    state: {
-        type: String,
-        required: "State is Required"
-    },
-    zip: {
-        type: Number,
-        required: "Zip is Required"
-    }
+  street: {
+      type: String,
+      required: "Address is Required"
+  },
+  city: {
+      type: String,
+      required: "City is Required"
+  },
+  state: {
+      type: String,
+      required: "State is Required"
+  },
+  zip: {
+      type: Number,
+      required: "Zip is Required"
+  },
+  lat: {
+    type: Number
+  },
+  lng: {
+      type: Number
   },
   phoneNumber: {
     type: String,
-    validate: {
+    /*validate: {
       validator: function(v) {
         return /\d{3}-\d{3}-\d{4}/.test(v);
       },
       message: '{VALUE} is not a valid phone number!'
-    },
+    },*/
     required: [true, 'User phone number required']
   },
-  vehicles: [],
+  vehicles: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Vehicle"
+    }
+  ],
   // `date` must be of type Date. The default value is the current date
   driverCreated: {
     type: Date,

@@ -6,8 +6,10 @@ var Schema = mongoose.Schema;
 // Using the Schema constructor, create a new ParkingSpotSchema object
 // This is similar to a Sequelize model
 var ParkingSpotSchema = new Schema({
-  ownerID: {},
-  address: {
+    driverID: {
+        type: Schema.Types.ObjectId,
+        ref: "Owner"
+    },
     street: {
         type: String,
         required: true
@@ -23,8 +25,13 @@ var ParkingSpotSchema = new Schema({
     zip: {
         type: Number,
         required: true
-    }
-  },
+    },
+    lat: {
+        type: Number
+    },
+    lng: {
+        type: Number
+    },
   // `date` must be of type Date. The default value is the current date
   parkingSpotCreated: {
     type: Date,
