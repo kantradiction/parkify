@@ -6,9 +6,12 @@ var Schema = mongoose.Schema;
 // Using the Schema constructor, create a new ParkingSpotSchema object
 // This is similar to a Sequelize model
 var ParkingSpotSchema = new Schema({
-    driverID: {
+    ownerID: {
         type: Schema.Types.ObjectId,
         ref: "Owner"
+    },
+    name: {
+        type: String
     },
     street: {
         type: String,
