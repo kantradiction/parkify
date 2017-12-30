@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import Landing from './components/pages/landing/landing';
+import Dashboard from './components/pages/dashboard/dashboard';
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          <p>This is a test to see if my branch works</p>
-        </p>
-      </div>
+      <Router>
+        <div>
+          <Route exact path="/" component={Landing} />
+          <Route exact path="/home" component={Dashboard} />
+        </div>
+      </Router>
+
     );
   }
 }
