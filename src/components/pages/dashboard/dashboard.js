@@ -5,11 +5,11 @@ import './dashboard.css';
 export default class Dashboard extends React.Component {
     render() {
         return (
-            <div>
+            <div className="back-dash">
                 <nav className="navbar navbar-default headman">
-                    <img src="assets/images/p.png" className="logo" />
-                    <h2 className="title"> <strong>arkify</strong> </h2>
-                    <img src="assets/images/profile.png" className="profile" />
+                    <img src="../../../Images/p.png" className="logo" />
+                    <h2 className="title"><strong>Parkify</strong> </h2>
+                    <img src="../../../Images/profile.png" className="profile" />
                     <a href="/"><button type="submit" className="btn btn-primary login"> Logout </button></a>
                 </nav>
                 <div className="container-fluid">
@@ -181,11 +181,11 @@ export default class Dashboard extends React.Component {
                         <div className="col-xs-3 space creator" data-toggle="modal" data-target="#creating">
                             <br />
                             <h4 className="create">Create a new parking spot</h4>
-                            <img src="assets/images/plus.png" className="plus" />
+                            <img src="../../../Images/plus.png" className="plus" />
                         </div>
                         <div className="col-xs-3 space occupied" data-toggle="modal" data-target="#enlarging">
                             <div className="bubble enlarger">
-                                <img src="assets/images/enlarge.png" className="enlarge icons" />
+                                <img src="../../../Images/enlarge.png" className="enlarge icons" />
                             </div>
                             <h4 className="spaceName">Name of Parking Space</h4>
                             <div className="rate info">
@@ -200,7 +200,7 @@ export default class Dashboard extends React.Component {
                         </div>
                         <div className="col-xs-3 space empty">
                             <div className="bubble editor">
-                                <img src="assets/images/pensil.png" className="pensil icons" data-toggle="modal" data-target="#editing" />
+                                <img src="../../../Images/pensil.png" className="pensil icons" data-toggle="modal" data-target="#editing" />
                             </div>
                             <h4 className="spaceName">Name of Parking Space</h4>
                             <div className="rate info">
@@ -215,7 +215,7 @@ export default class Dashboard extends React.Component {
                         </div>
                         <div className="col-xs-3 space alerts">
                             <div className="bubble alerter notif" data-toggle="modal" data-target="#alerting">
-                                <img src="assets/images/bell.png" className="bell icons" />
+                                <img src="../../../Images/bell.png" className="bell icons" />
                             </div>
                             <h4 className="spaceName">Name of Parking Space</h4>
                             <div className="rate info">

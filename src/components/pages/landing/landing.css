@@ -1,3 +1,8 @@
+.back-grd {
+  color:black;
+  background:url('../../../Images/street.jpg');
+}
+
 .garage{
 background:#e6e6e6;
 margin-left:10%;
@@ -50,11 +55,6 @@ margin-left:5%;
   background:green !important;
 }
 
-body {
-  color:black;
-  /* background:url('../images/street.jpg'); */
-}
-
 .headman {
   background:black !important;
   color:#e6e6e6 !important;
@@ -75,7 +75,7 @@ body {
 }
 
 .form-inline {
-  margin-leftc:35%;
+  margin-left: 35%;
 }
 
 .owner {
@@ -102,15 +102,22 @@ font-family: 'Mukta Malar', sans-serif;
 }
 
 .sub {
-  margin-left:18%;font-family:'Arial', Times, serif;margin-bottom:30px;
+  margin-left:18%;font-family:'Arial', Times, serif;
+  margin-bottom:30px;
 }
 
 .subsub {
-  ext-align:center;margin-top:10%;float:left;
+  text-align: center;
+  margin-top: 10%;
+  float: left;
 }
 
 .sublogo {
-  width:10%;height:10%;float:left;margin-left:15%;margin-top:6%;
+  width:10%;
+  height:10%;
+  float:left;
+  margin-left:15%;
+  margin-top:6%;
 }
 
 .info {
@@ -118,5 +125,6 @@ font-family: 'Mukta Malar', sans-serif;
 }
 
 .signup {
-  margin-top:5%;width:100%;
+  margin-top:5%;
+  width:100%;
 }
