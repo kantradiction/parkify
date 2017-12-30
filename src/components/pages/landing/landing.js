@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import P from './../../../Images/p.png';
 import './landing.css';
 
 export default class Landing extends React.Component {
@@ -6,7 +7,7 @@ export default class Landing extends React.Component {
         return (
             <div className="back-grd">
                 <nav className="navbar navbar-default headman">
-                    <img src="../../../Images/p.png" className="logo" />
+                    <img src={P} className="logo" />
                     <h2 className="title"> <strong>Parkify</strong> </h2>
                     <form className="form-inline formatter invisible" method="POST" action="/dashboard">
                         <label htmlFor> Email </label>
@@ -44,7 +45,7 @@ export default class Landing extends React.Component {
                                     <input className="form-control info" placeholder="Email" type="email" />
                                     <input className="form-control info" placeholder="Password" type="password" />
                                     <br />
-                                    <input name="gender" defaultValue="male" className="info" type="radio" /> Owner
+                                    <input name="gender" defaultValue="male" className="info" type="radio" /> Owner &nbsp;&nbsp;
                                     <input name="gender" defaultValue="female" type="radio" /> Driver
                                     <br />
                                     <button type="submit" className="btn btn-primary btn-md signup"> SignUp </button>
