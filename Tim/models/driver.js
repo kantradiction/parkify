@@ -1,11 +1,11 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 // Save a reference to the Schema constructor
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 // Using the Schema constructor, create a new UserSchema object
 // This is similar to a Sequelize model
-var OwnerSchema = new Schema({
+const DriverSchema = new Schema({
   // `email` must be of type String
   // `email` must be unique
   // `email` must match the regex pattern below and throws a custom error message if it does not
@@ -13,7 +13,8 @@ var OwnerSchema = new Schema({
     type: String,
     unique: true,
     trim: true,
-    match: [/.+\@.+\..+/, "Please enter a valid e-mail address"]
+    match: [/.+\@.+\..+/, "Please enter a valid e-mail address"],
+    required: "Email is Required"
   },
   // `password` must be of type String
   // `password` will trim leading and trailing whitespace before it's saved
@@ -38,23 +39,19 @@ var OwnerSchema = new Schema({
   lastName: {
     type: String,
     trim: true,
-    required: "First Name is Required",
+    required: "Last Name is Required",
   },
   street: {
-    type: String,
-    required: true
+      type: String,
   },
   city: {
-    type: String,
-    required: true
+      type: String,
   },
   state: {
-    type: String,
-    required: true
+      type: String,
   },
   zip: {
-    type: Number,
-    required: true
+      type: Number,
   },
   loc: {
     type: [Number], //[<longitude>, <latitude>]
@@ -68,23 +65,23 @@ var OwnerSchema = new Schema({
       },
       message: '{VALUE} is not a valid phone number!'
     },*/
-    required: [true, 'User phone number required']
+    /*required: [true, 'User phone number required']*/
   },
-  parkingSpots: [
+  vehicles: [
     {
       type: Schema.Types.ObjectId,
-      ref: "ParkingSpot"
+      ref: "Vehicle"
     }
-  ],  
+  ],
   // `date` must be of type Date. The default value is the current date
-  ownerCreated: {
+  driverCreated: {
     type: Date,
     default: Date.now
   }
 });
 
 // This creates our model from the above schema, using mongoose's model method
-var Owner = mongoose.model("Owner", OwnerSchema);
+const Driver = mongoose.model("Driver", DriverSchema);
 
-// Export the Owner model
-module.exports = Owner;
+// Export the Driver model
+module.exports = Driver;

@@ -1,11 +1,11 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 // Save a reference to the Schema constructor
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 // Using the Schema constructor, create a new ParkingSpotSchema object
 // This is similar to a Sequelize model
-var ParkingSpotSchema = new Schema({
+const ParkingSpotSchema = new Schema({
     ownerID: {
         type: Schema.Types.ObjectId,
         ref: "Owner"
@@ -41,7 +41,7 @@ var ParkingSpotSchema = new Schema({
 });
 
 // This creates our model from the above schema, using mongoose's model method
-var ParkingSpot = mongoose.model("ParkingSpot", ParkingSpotSchema);
+const ParkingSpot = mongoose.model("ParkingSpot", ParkingSpotSchema);
 
 // Export the ParkingSpot model
 module.exports = ParkingSpot;

@@ -14,10 +14,10 @@ route.post("/create-parking-spot", function(req, res) {
     //then remove whitespace from address variable
     //then instantiate latitude and longitude properties of the temp object
     let tempObject = req.body;
-    let address = tempObject.street + tempObject.city + tempObject.state + tempObject.zip;
+    const address = tempObject.street + tempObject.city + tempObject.state + tempObject.zip;
     address.replace(/ /g,'');
-    tempObject.lat = 0;
-    tempObject.lng = 0;
+
+    tempObject.loc = [];
 
     //use axios to pass address into google to return coordinates 
     //then add those coordinates to the temp object
@@ -25,8 +25,8 @@ route.post("/create-parking-spot", function(req, res) {
     axios.get("https://maps.google.com/maps/api/geocode/json?key=AIzaSyDu3uARDgsUWZTKOQ_CItX7_grlIU11Ieo&address=" + address)
     .then(function(response) {
         let coords = response.data.results[0].geometry.location;
-        tempObject.lat = coords.lat;
-        tempObject.lng = coords.lng;
+        tempObject.loc[0] = coords.lng;
+        tempObject.loc[1] = coords.lat;
     }).then(function() {
         // Create a new parking spot using the temp object
         ParkingSpot.create(tempObject)
@@ -83,8 +83,7 @@ route.put("/update-parking-spot", function(req, res) {
     let tempObject = req.body;
     const address = tempObject.street + tempObject.city + tempObject.state + tempObject.zip;
     address.replace(/ /g,'');
-    tempObject.lat = 0;
-    tempObject.lng = 0;
+    tempObject.loc = [];
 
     //use axios to pass address into google to return coordinates 
     //then add those coordinates to the temp object
@@ -92,8 +91,9 @@ route.put("/update-parking-spot", function(req, res) {
     axios.get("https://maps.google.com/maps/api/geocode/json?key=AIzaSyDu3uARDgsUWZTKOQ_CItX7_grlIU11Ieo&address=" + address)
     .then(function(response) {
         const coords = response.data.results[0].geometry.location;
-        tempObject.lat = coords.lat;
-        tempObject.lng = coords.lng;
+        //lng comes first
+        tempObject.loc[0] = coords.lng;
+        tempObject.loc[1] = coords.lat;
     }).then(function() {
         // Update parking spot using the temp object
         ParkingSpot.update({
@@ -105,8 +105,7 @@ route.put("/update-parking-spot", function(req, res) {
                 city: tempObject.city,
                 state: tempObject.state,
                 zip: tempObject.zip,
-                lat: tempObject.lat,
-                lng: tempObject.lng
+                loc: tempObject.loc
             }
         })
         .then(function(dbParkingSpot) {
@@ -160,6 +159,40 @@ route.get("/delete-parking-spot/:id", function(req, res) {
                 res.send(removed);
             }
         });
+    });
+});
+
+route.get("/findNear", function(req, res, next) {
+    let limit = req.query.limit || 10;
+    
+    // get the max distance or set it to 8 miles
+    let maxDistance = req.query.distance;
+
+    // we need to convert the distance to radians
+    // the radius of the Earth is approximately 3959 miles
+    maxDistance /= 3963.192;
+
+    // get coordinates [ <longitude> , <latitude> ]
+    let coords = [];
+    coords[0] = req.query.longitude;
+    coords[1] = req.query.latitude;
+
+    //find a location
+    ParkingSpot
+    .find({
+        loc: {
+            $nearSphere: coords,
+            $maxDistance: maxDistance
+        }
+    })
+    .populate("ownerID")
+    /*.limit(limit)*/
+    .exec((err, locations) => {
+        if (err) {
+            res.send(err);
+        }
+
+        res.send(locations);
     });
 });
 

@@ -15,8 +15,7 @@ route.post("/create-owner", function(req, res) {
     let tempObject = req.body;
     let address = tempObject.street + tempObject.city + tempObject.state + tempObject.zip;
     address.replace(/ /g,'');
-    tempObject.lat = 0;
-    tempObject.lng = 0;
+    tempObject.loc = [];
 
     //use axios to pass address into google to return coordinates 
     //then add those coordinates to the temp object
@@ -24,8 +23,8 @@ route.post("/create-owner", function(req, res) {
     axios.get("https://maps.google.com/maps/api/geocode/json?key=AIzaSyDu3uARDgsUWZTKOQ_CItX7_grlIU11Ieo&address=" + address)
     .then(function(response) {
         let coords = response.data.results[0].geometry.location;
-        tempObject.lat = coords.lat;
-        tempObject.lng = coords.lng;
+        tempObject.loc[0] = coords.lng;
+        tempObject.loc[1] = coords.lat;
     }).then(function() {
         Owner.create(tempObject)
         .then(function(dbOwner) {
@@ -40,7 +39,7 @@ route.post("/create-owner", function(req, res) {
 });
 
 route.get("/get-owners", function(req, res) {
-    Owner.find({})//.populate("parkingSpots")
+    Owner.find({}).populate("parkingSpots")
     .then(function(dbOwner) {
         res.json(dbOwner);
     })
@@ -68,8 +67,7 @@ route.put("/update-owner", function(req, res) {
     let tempObject = req.body;
     const address = tempObject.street + tempObject.city + tempObject.state + tempObject.zip;
     address.replace(/ /g,'');
-    tempObject.lat = 0;
-    tempObject.lng = 0;
+    tempObject.loc = [];
 
     //use axios to pass address into google to return coordinates 
     //then add those coordinates to the temp object
@@ -77,8 +75,8 @@ route.put("/update-owner", function(req, res) {
     axios.get("https://maps.google.com/maps/api/geocode/json?key=AIzaSyDu3uARDgsUWZTKOQ_CItX7_grlIU11Ieo&address=" + address)
     .then(function(response) {
         const coords = response.data.results[0].geometry.location;
-        tempObject.lat = coords.lat;
-        tempObject.lng = coords.lng;
+        tempObject.loc[0] = coords.lng;
+        tempObject.loc[1] = coords.lat;
     }).then(function() {
         // Update parking spot using the temp object
         Owner.update({
@@ -93,8 +91,7 @@ route.put("/update-owner", function(req, res) {
                 city: tempObject.city,
                 state: tempObject.state,
                 zip: tempObject.zip,
-                lat: tempObject.lat,
-                lng: tempObject.lng
+                loc: tempObject.loc
             }
         })
         .then(function(dbOwner) {
