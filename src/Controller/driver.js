@@ -50,7 +50,7 @@ route.get("/get-drivers", function(req, res) {
 });
 
 route.get("/get-driver/:id", function(req, res) {
-    Driver.find({_id: req.params.id}).populate("vehicles")
+    Driver.findOne({_id: req.params.id}).populate("vehicles")
     .then(function(dbDriver) {
         res.json(dbDriver);
     })
