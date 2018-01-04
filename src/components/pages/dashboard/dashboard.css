@@ -1,0 +1,169 @@
+.back-dash {
+  background:url('../../../Images/world.jpg');
+}
+
+.header {
+  background:#17D867;
+}
+
+.logo {
+  width:5%;
+  height:5%;
+  float:left;
+  margin-right:1%;
+}
+
+.title {
+  margin-right:70%;
+}
+
+.profile {
+  width:4%;
+  height:3%;
+  float:right;
+  position:relative;
+  right:10px;
+}
+
+.parkingGarage {
+  width:90%;
+  margin-left:5%;
+}
+.menu {
+  float:right;
+  margin-left:90%;
+}
+
+
+.garage{
+background:#e6e6e6;margin-left:10%;width:20%;height:20%;border-radius:10%;margin-top:1%;
+}
+.title{
+  color:#e6e6e6;text-align:center;
+}
+.address{
+color:#e6e6e6;text-align:left;margin-left:5%;
+}
+.status{
+  color:#e6e6e6;text-align:left;margin-left:5%;
+
+}
+.icon{
+  width:100%;height:130px;
+}
+.rate{
+  color:#e6e6e6;text-align:left;margin-left:5%;
+}
+
+.Empty{
+  background:red !important;
+}
+.Renting{
+  background:green !important;
+}
+
+
+.mySpots{
+  text-align:left;font-weight:200;
+}
+.space{
+  margin-top:2%;margin-left:5%;
+}
+.creator{
+  border:dashed 3px black;
+    box-shadow: 0px 0px 1px 1px black;
+}
+.plus{
+  width:50%;margin-left:25%;margin-top:25%;
+}
+.create{
+  text-align:center;
+}
+.occupied{
+border:green 2px solid;
+  box-shadow: 0px 0px 2px 2px green;
+}
+.bubble{
+  width:11%;height:12%;border-radius:50%;margin-left:100.5%;border:2px solid black;background:#e6e6e6;position:relative;bottom:10px;padding:1%;
+}
+.icons{
+  width:100%;height:100%;
+}
+.enlarge{
+  width:70%;height:70%;margin-left:19%;
+}
+h4{
+  text-align:center;
+}
+nav{
+  position:fixed;
+}
+.info{
+  margin-top:10%;
+}
+.detail{
+  color:black;margin-bottom:1%;
+}
+option{
+  position:relative;bottom:10px;padding:10px;
+}
+.stat{
+  text-align:center;
+}
+.editDescription {
+  width:90%;float:right;height:100px;margin-top:5%;margin-bottom:5%;border:1px solid black;margin-left:5%;float:left;
+}
+
+
+.container-fluid{
+  width:90%;background:#AFEEEE;padding:5%;
+}
+.profile{
+  float:right;
+  width:3%;
+}
+.modal{
+  margin-top:5%;width:90%;height:90%;padding:10%;
+}
+  .modal-header{
+    margin-left:90%;
+  }
+  .createTitle{
+    text-align:center;
+  }
+  .small{
+    width:30%;margin-top:5%;float:left;
+  }
+  .normal{
+  width:90%;margin-top:5%;float:left;
+  }
+  .ownerside{
+    width:50%;float:left;margin-top:5%;
+  }
+  .driverside{
+    width:50%;float:left;margin-top:5%;border-top:1px solid black;
+  }
+.address{
+  color:black;
+}
+.pensil{
+  width:100%;
+}
+.empty{
+  border:2px solid black;
+    box-shadow: 0px 0px 2px 2px black;
+}
+.alerts{
+  border:2px solid red;
+    box-shadow: 0px 0px 2px 2px red;
+}
+.col-xs-3{
+  background:#e6e6e6;
+  margin-bottom:5%;
+  padding-bottom:1%;
+
+}
+h5{
+  text-align:left;
+
+}

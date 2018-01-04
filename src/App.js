@@ -1,19 +1,34 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+
+// Imported Pages
+import Landing from './Components/Pages/Landing/landing';
+import Dashboard from './Components/Pages/Dashboard/dashboard';
+import Alert from './Components/Pages/Alert/alert';
+import Create from './Components/Pages/Create/create';
+import Edit from './Components/Pages/Edit/edit';
+import Enlarge from './Components/Pages/Enlarge/enlarge';
+import Garage from './Components/Pages/Garage/garage'
+import Sample from './Components/Pages/Sample/sample';
+
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          <p>This is a test to see if my branch works</p>
-        </p>
-      </div>
+      <Router>
+        <div>
+          <Route exact path="/" component={Landing} />
+          <Route exact path="/home" component={Dashboard} />
+          <Route exact path="/alert" component={Alert} />
+          <Route exact path="/create" component={Create} />
+          <Route exact path="/edit" component={Edit} />
+          <Route exact path="/enlarge" component={Enlarge} />
+          <Route exact path="/garage" component={Garage} />
+          <Route exact path="/sample" component={Sample} />
+        </div>
+      </Router>
+
     );
   }
 }
