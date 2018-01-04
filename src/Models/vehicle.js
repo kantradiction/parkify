@@ -6,6 +6,11 @@ var Schema = mongoose.Schema;
 // Using the Schema constructor, create a new VehicleSchema object
 // This is similar to a Sequelize model
 var VehicleSchema = new Schema({
+    // `date` must be of type Date. The default value is the current date
+    vehicleCreated: {
+        type: Date,
+        default: Date.now
+    },
     driverID: {
         type: Schema.Types.ObjectId,
         ref: "Driver"
@@ -30,11 +35,12 @@ var VehicleSchema = new Schema({
         trim: true,
         required: "Color is Required"    
     },
-    // `date` must be of type Date. The default value is the current date
-    vehicleCreated: {
-        type: Date,
-        default: Date.now
-    }
+    rentals: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Rental"
+        }
+    ]
 });
 
 // This creates our model from the above schema, using mongoose's model method

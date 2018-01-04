@@ -6,6 +6,11 @@ var Schema = mongoose.Schema;
 // Using the Schema constructor, create a new UserSchema object
 // This is similar to a Sequelize model
 var DriverSchema = new Schema({
+  // `date` must be of type Date. The default value is the current date
+  driverCreated: {
+    type: Date,
+    default: Date.now
+  },
   // `email` must be of type String
   // `email` must be unique
   // `email` must match the regex pattern below and throws a custom error message if it does not
@@ -76,11 +81,12 @@ var DriverSchema = new Schema({
       ref: "Vehicle"
     }
   ],
-  // `date` must be of type Date. The default value is the current date
-  driverCreated: {
-    type: Date,
-    default: Date.now
-  }
+  rentals: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Rental"
+    }
+  ]
 });
 
 // This creates our model from the above schema, using mongoose's model method

@@ -41,6 +41,8 @@ var parkingSpotRoute = require("./Controller/parkingSpot.js");
 app.use("/", parkingSpotRoute);
 var vehicleRoute = require("./Controller/vehicle.js");
 app.use("/", vehicleRoute);
+var rentalRoute = require("./Controller/rental.js");
+app.use("/", rentalRoute);
 
 // Start the server
 app.listen(PORT, function() {

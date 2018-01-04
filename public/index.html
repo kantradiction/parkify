@@ -50,6 +50,8 @@
           </li>
           <li><a href="/get-vehicles">Get Vehicles</a>
           </li>
+          <li><a href="/get-rentals">Get Rentals</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -139,6 +141,13 @@
                 <h3>Create Parking Spot</h3>
                 <form id="create-parking-spot-form">
                   <div class="row">
+                      <div class="small-9 columns">
+                          <label for="">Owner
+                            <select name="" id="create-parking-spot-owner-dropdown">
+                              <option value="select">- SELECT -</option>
+                            </select>
+                          </label>
+                        </div>
                       <!--ADDRESS-->
                       <div class="small-12 columns">
                           <label> Street
@@ -255,6 +264,13 @@
                   <h3>Create Vehicle</h3>
                   <form id="create-vehicle-form">
                     <div class="row">
+                        <div class="small-9 columns">
+                          <label for="">Driver
+                            <select name="" id="create-vehicle-driver-dropdown">
+                              <option value="select">- SELECT -</option>
+                            </select>
+                          </label>
+                        </div>
                       <div class="small-6 columns">
                         <label>Make</label>
                         <input type="text" id="create-vehicle-make" placeholder="Lexus"/>
@@ -283,124 +299,257 @@
             </div>
           </div>
       </div>
+      <div class="row">
+        <div class="medium-6 columns">
+          <div class="callout primary">
+            <div class="row">
+              <div class="small-12 columns">
+                <h3>Create Rental</h3>
+                <form id="create-rental-form">
+                  <div class="row">
+                    <div class="small-6 columns">
+                      <label for="">Owner
+                        <select name="" id="rental-owner-dropdown">
+                          <option value="select">- SELECT -</option>
+                        </select>
+                      </label>
+                    </div>
+                    <div class="small-6 columns">
+                      <label for="">Parking Spot
+                        <select name="" id="rental-parking-spot-dropdown">
+                        </select>
+                      </label>
+                    </div>
+                    <div class="small-6 columns">
+                      <label for="">Driver
+                        <select name="" id="rental-driver-dropdown">
+                          <option value="select">- SELECT -</option>
+                        </select>
+                      </label>
+                    </div>
+                    <div class="small-6 columns">
+                      <label for="">Vehicle
+                        <select name="" id="rental-vehicle-dropdown">
+                        </select>
+                      </label>
+                    </div>
+                    <div class="small-6 columns float-left">
+                      <label>Rate</label>
+                      <input type="text" id="create-rental-rate" placeholder="$10"/>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="small-12 columns">
+                        <input class="button small-4" id="create-rental-button" type="submit" value="Create Rental" />
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="row">
-      <h2>Read Things</h2>
-    </div>
-    <div class="row">
-      <h2>Update Things</h2>
-    </div>
-    <div class="row">
-      <h2>Delete Things</h2>
-    </div>
-    <script>
+    <script>      
+      $(document).ready(function() {
+        //load owners and drivers into dropdowns on page load
+        //----------------------------------------------------
 
-      //Temporary Objects
-      
-      
-      
-      
-
-      $("#create-owner-button").on("click", function() {
-        event.preventDefault();
-        let tempOwner = {
-          firstName: $('#create-owner-first-name').val().trim(),
-          lastName: $('#create-owner-last-name').val().trim(),
-          email: $('#create-owner-email').val().trim(),
-          password: $('#create-owner-password').val().trim(),
-          street: $('#create-owner-street').val().trim(),
-          city: $('#create-owner-city').val().trim(),
-          state: $('#create-owner-state').val().trim(),
-          zip: $('#create-owner-zip').val().trim(),
-          phoneNumber: $('#create-owner-phone-number').val().trim(),
-          ownerCreated: Date.now()
-        };
-
-        $.post("/create-owner", tempOwner)
-        .then((res) => {
-          sessionStorage.setItem("ownerId", res._id)
-          console.log("result");
-          console.log(res);
-          $("#create-owner-form").trigger("reset");
-        })
-        .catch((err) => {
-          console.log("error");
-          console.log(err);
+        //load owners
+        $.ajax({
+          url: "/get-owners"
+        }).done(function(response) {
+          for (let i = 0; i < response.length; i++) {
+            $("#rental-owner-dropdown, #create-parking-spot-owner-dropdown")
+              .append(
+                "<option value='" + response[i]._id + "'>" + response[i].firstName + "</option>"
+              );
+          }
         });
-      });
 
-      $("#create-driver-button").on("click", function() {
-        event.preventDefault();
-        let tempDriver = {
-          firstName: $('#create-driver-first-name').val().trim(),
-          lastName: $('#create-driver-last-name').val().trim(),
-          email: $('#create-driver-email').val().trim(),
-          password: $('#create-driver-password').val().trim(),
-          street: $('#create-driver-street').val().trim(),
-          city: $('#create-driver-city').val().trim(),
-          state: $('#create-driver-state').val().trim(),
-          zip: $('#create-driver-zip').val().trim(),
-          phoneNumber: $('#create-driver-phone-number').val().trim(),
-          driverCreated: Date.now()
-        };
-
-        $.post("/create-driver", tempDriver)
-        .then((res) => {
-          sessionStorage.setItem("driverId", res._id);
-          console.log("result");
-          console.log(res);
-          $("#create-driver-form").trigger("reset");
-        })
-        .catch((err) => {
-          console.log("error");
-          console.log(err);
+        //load drivers
+        $.ajax({
+          url: "/get-drivers"
+        }).done(function(response) {
+          for (let i = 0; i < response.length; i++) {
+            $("#rental-driver-dropdown, #create-vehicle-driver-dropdown")
+              .append(
+                "<option value='" + response[i]._id + "'>" + response[i].firstName + "</option>"
+              );
+          }
         });
-      });
 
-      $("#create-parking-spot-button").on("click", function() {
-        event.preventDefault();
-        let tempParkingSpot = {
-          ownerID: sessionStorage.getItem("ownerId"),
-          street: $("#create-parking-spot-street").val().trim(),
-          city: $("#create-parking-spot-city").val().trim(),
-          state: $("#create-parking-spot-state").val().trim(),
-          zip: $("#create-parking-spot-zip").val().trim(),
-          parkingSpotCreated: Date.now()
-        };
+        //load parking spots
+        $("#rental-owner-dropdown").change(function() {
+          let ownerID = $(this).val();
 
-        $.post("/create-parking-spot", tempParkingSpot)
-        .then((res) => {
-          console.log("result");
-          console.log(res);
-          $("#create-parking-spot-form").trigger("reset");
+          $.ajax({
+            url: "/get-owner/" + ownerID
+          }).done(function(response) {
+            let amtOfParkingSpots = response.parkingSpots.length;
+            console.log(response);
+            $("#rental-parking-spot-dropdown").html("");
+            for (let i = 0; i < amtOfParkingSpots; i++) {
+              $("#rental-parking-spot-dropdown")
+              .append(
+                "<option value='" + response.parkingSpots[i]._id + "'>" + response.parkingSpots[i].street + "</option>"
+              );
+            }
+          });
         })
-        .catch((err) => {
-          console.log("error");
-          console.log(err);
+
+        //load vehicles spots
+        $("#rental-driver-dropdown").change(function() {
+          let driverID = $(this).val();
+
+          $.ajax({
+            url: "/get-driver/" + driverID
+          }).done(function(response) {
+            let amtOfVehicles = response.vehicles.length;
+            console.log(amtOfVehicles);
+
+            $("#rental-vehicle-dropdown").html("");
+            for (let i = 0; i < amtOfVehicles; i++) {
+              $("#rental-vehicle-dropdown")
+              .append(
+                "<option value='" + response.vehicles[i]._id + "'>" + response.vehicles[i].make + "</option>"
+              );
+            }
+          });
+        })
+        //----------------------------------------------------
+
+        //Temporary Objects
+        $("#create-owner-button").on("click", function() {
+          event.preventDefault();
+          let tempOwner = {
+            firstName: $('#create-owner-first-name').val().trim(),
+            lastName: $('#create-owner-last-name').val().trim(),
+            email: $('#create-owner-email').val().trim(),
+            password: $('#create-owner-password').val().trim(),
+            street: $('#create-owner-street').val().trim(),
+            city: $('#create-owner-city').val().trim(),
+            state: $('#create-owner-state').val().trim(),
+            zip: $('#create-owner-zip').val().trim(),
+            phoneNumber: $('#create-owner-phone-number').val().trim(),
+            ownerCreated: Date.now()
+          };
+
+          $.post("/create-owner", tempOwner)
+          .then((res) => {
+            sessionStorage.setItem("ownerId", res._id)
+            console.log("result");
+            console.log(res);
+            $("#create-owner-form").trigger("reset");
+          })
+          .catch((err) => {
+            console.log("error");
+            console.log(err);
+          });
         });
-      });
 
-      $("#create-vehicle-button").on("click", function() {
-        event.preventDefault();
-        let tempVehicle = {
-          driverID: sessionStorage.getItem("driverId"),
-          make: $("#create-vehicle-make").val().trim(),
-          model: $("#create-vehicle-model").val().trim(),
-          year: $("#create-vehicle-year").val().trim(),
-          color: $("#create-vehicle-color").val().trim(),
-          vehicleCreated: Date.now()
-        };
+        $("#create-driver-button").on("click", function() {
+          event.preventDefault();
+          let tempDriver = {
+            firstName: $('#create-driver-first-name').val().trim(),
+            lastName: $('#create-driver-last-name').val().trim(),
+            email: $('#create-driver-email').val().trim(),
+            password: $('#create-driver-password').val().trim(),
+            street: $('#create-driver-street').val().trim(),
+            city: $('#create-driver-city').val().trim(),
+            state: $('#create-driver-state').val().trim(),
+            zip: $('#create-driver-zip').val().trim(),
+            phoneNumber: $('#create-driver-phone-number').val().trim(),
+            driverCreated: Date.now()
+          };
 
-        $.post("/create-vehicle", tempVehicle)
-        .then((res) => {
-          if (!res.errors) {
-            $("#create-vehicle-form").trigger("reset");
-          } 
-          alert(res.message);
-        })
-        .catch((err) => {
-          console.log("error");
-          console.log(err);
+          $.post("/create-driver", tempDriver)
+          .then((res) => {
+            sessionStorage.setItem("driverId", res._id);
+            console.log("result");
+            console.log(res);
+            $("#create-driver-form").trigger("reset");
+          })
+          .catch((err) => {
+            console.log("error");
+            console.log(err);
+          });
+        });
+
+        $("#create-parking-spot-button").on("click", function() {
+          event.preventDefault();
+          let tempParkingSpot = {
+            //ownerID: sessionStorage.getItem("ownerId"),
+            ownerID: $("#create-parking-spot-owner-dropdown").val(),
+            street: $("#create-parking-spot-street").val().trim(),
+            city: $("#create-parking-spot-city").val().trim(),
+            state: $("#create-parking-spot-state").val().trim(),
+            zip: $("#create-parking-spot-zip").val().trim(),
+            parkingSpotCreated: Date.now()
+          };
+
+          $.post("/create-parking-spot", tempParkingSpot)
+          .then((res) => {
+            console.log("result");
+            console.log(res);
+            $("#create-parking-spot-form").trigger("reset");
+          })
+          .catch((err) => {
+            console.log("error");
+            console.log(err);
+          });
+        });
+
+        $("#create-vehicle-button").on("click", function() {
+          event.preventDefault();
+          let tempVehicle = {
+            //driverID: sessionStorage.getItem("driverId"),
+            driverID: $("#create-vehicle-driver-dropdown").val(),
+            make: $("#create-vehicle-make").val().trim(),
+            model: $("#create-vehicle-model").val().trim(),
+            year: $("#create-vehicle-year").val().trim(),
+            color: $("#create-vehicle-color").val().trim(),
+            vehicleCreated: Date.now()
+          };
+
+          $.post("/create-vehicle", tempVehicle)
+          .then((res) => {
+            if (!res.errors) {
+              $("#create-vehicle-form").trigger("reset");
+            } 
+            alert(res.message);
+          })
+          .catch((err) => {
+            console.log("error");
+            console.log(err);
+          });
+        });
+
+        $("#create-rental-button").on("click", function() {
+          event.preventDefault();
+
+          let tempRental = {
+            rate: $("#create-rental-rate").val().trim(),
+            ownerID: $("#rental-owner-dropdown").val(),
+            parkingSpotID: $("#rental-parking-spot-dropdown").val(),
+            driverID: $("#rental-driver-dropdown").val(),
+            vehicleID: $("#rental-vehicle-dropdown").val()
+          };
+
+          $.post("/create-rental", tempRental)
+          .then((res) => {
+            console.log("result");
+            console.log(res);
+            if (!res.errors) {
+              $("#create-rental-form").trigger("reset");
+              $("#rental-parking-spot-dropdown").html("");
+              $("#rental-vehicle-dropdown").html("");
+            } 
+          })
+          .catch((err) => {
+            console.log("error");
+            console.log(err);
+          });
         });
       });
     </script>

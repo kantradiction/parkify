@@ -49,7 +49,7 @@ route.get("/get-owners", function(req, res) {
 });
 
 route.get("/get-owner/:id", function(req, res) {
-    Owner.find({_id: req.params.id}).populate("parkingSpots")
+    Owner.findOne({_id: req.params.id}).populate("parkingSpots")
     .then(function(dbOwner) {
         res.json(dbOwner);
     })

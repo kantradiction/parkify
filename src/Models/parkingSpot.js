@@ -6,6 +6,11 @@ var Schema = mongoose.Schema;
 // Using the Schema constructor, create a new ParkingSpotSchema object
 // This is similar to a Sequelize model
 var ParkingSpotSchema = new Schema({
+    // `date` must be of type Date. The default value is the current date
+    parkingSpotCreated: {
+        type: Date,
+        default: Date.now
+    },
     ownerID: {
         type: Schema.Types.ObjectId,
         ref: "Owner"
@@ -33,11 +38,12 @@ var ParkingSpotSchema = new Schema({
         type: [Number], //[<longitude>, <latitude>]
         index: '2d'
     },
-  // `date` must be of type Date. The default value is the current date
-  parkingSpotCreated: {
-    type: Date,
-    default: Date.now
-  }
+    rentals: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Rental"
+        }
+    ]
 });
 
 // This creates our model from the above schema, using mongoose's model method
