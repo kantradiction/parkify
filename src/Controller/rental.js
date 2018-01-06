@@ -108,25 +108,23 @@ route.get("/get-rentals", function(req, res) {
 });
 
 route.post("/update-rental/:id", function(req, res) {
-
     let tempRental = req.body;
     
-    Rental.update({
-        _id:req.params.id
-    }, {
-        $set: {
-            status: req.body.status,
-            rate: req.body.rate
-        }
-    })
-    .then(function() {
-        console.log("parkingspot update");
-        Rental.findOne({
-            _id: req.params.id
+    if(tempRental.status !== "active") {
+
+        Rental.findOneAndUpdate({
+            _id:req.params.id
+        }, {
+            $set: {
+                status: req.body.status,
+                rate: req.body.rate
+            }
+        }, {
+            new: true
         })
         .then(function(dbRental) {
-            console.log(dbRental.parkingSpotID);
-            ParkingSpot.update({
+            ParkingSpot
+            .update({
                 _id:dbRental.parkingSpotID
             }, {
                 $set: {
@@ -138,18 +136,45 @@ route.post("/update-rental/:id", function(req, res) {
                     res.send(err);
                 }
             });
+        })
+        .catch(function(err) {
+            console.log("err");
+            // If an error occurs, send the error to the client
+            res.json(err);
         });
-    })
-    .then(function(dbRental) {
-        console.log("dbRental");
-        console.log(dbRental);
-        res.json(dbRental);
-    })
-    .catch(function(err) {
-        console.log("err");
-        // If an error occurs, send the error to the client
-        res.json(err);
-    });
+
+    } else {
+        Rental.findOneAndUpdate({
+            _id:req.params.id
+        }, {
+            $set: {
+                status: req.body.status,
+                rate: req.body.rate
+            }
+        }, {
+            new: true
+        })
+        .then(function(dbRental) {
+            ParkingSpot
+            .update({
+                _id:dbRental.parkingSpotID
+            }, {
+                $set: {
+                    availability: "occupied"
+                }
+            }, function(err) {
+                if (this.err) {
+                    console.log(err);
+                    res.send(err);
+                }
+            });
+        })
+        .catch(function(err) {
+            console.log("err");
+            // If an error occurs, send the error to the client
+            res.json(err);
+        });
+    }
 });
 
 route.get("/update-rental/:id/:status", function(req, res) {

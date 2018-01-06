@@ -366,7 +366,7 @@
                     <div class="row">
                         <div class="small-6 columns float-left">
                           <label>Rate</label>
-                          <input type="text" id="update-rental-rate" placeholder="$10"/>
+                          <input type="number" id="update-rental-rate" placeholder="$10"/>
                         </div>
                         <div class="small-6 columns">
                           <label for="">Status
@@ -616,7 +616,7 @@
           };
 
           $.post("/update-rental/" + tempRental._id, tempRental)
-          .then((res) => {
+          .done((res) => {
             console.log("result");
             console.log(res);
             if (!res.errors) {
