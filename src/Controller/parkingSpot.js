@@ -183,7 +183,8 @@ route.get("/findNear", function(req, res, next) {
         loc: {
             $nearSphere: coords,
             $maxDistance: maxDistance
-        }
+        },
+        availability: "available"
     })
     .populate("ownerID")
     /*.limit(limit)*/
