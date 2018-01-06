@@ -27,7 +27,7 @@ var OwnerSchema = new Schema({
   password: {
     type: String,
     trim: true,
-    required: "Password is Required",
+    //required: "Password is Required",
     validate: [
       function(input) {
         return input.length >= 6;
@@ -38,28 +38,24 @@ var OwnerSchema = new Schema({
   firstName: {
     type: String,
     trim: true,
-    required: "First Name is Required",
+    //required: "First Name is Required",
   },
   lastName: {
     type: String,
     trim: true,
-    required: "First Name is Required",
+    //required: "First Name is Required",
   },
   street: {
     type: String,
-    required: true
   },
   city: {
     type: String,
-    required: true
   },
   state: {
     type: String,
-    required: true
   },
   zip: {
     type: Number,
-    required: true
   },
   loc: {
     type: [Number], //[<longitude>, <latitude>]
@@ -73,7 +69,6 @@ var OwnerSchema = new Schema({
       },
       message: '{VALUE} is not a valid phone number!'
     },*/
-    required: [true, 'User phone number required']
   },
   parkingSpots: [
     {

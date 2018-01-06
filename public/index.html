@@ -348,6 +348,49 @@
             </div>
           </div>
         </div>
+        <div class="medium-6 columns">
+            <div class="callout primary">
+              <div class="row">
+                <div class="small-12 columns">
+                  <h3>Update Rental</h3>
+                  <form id="create-rental-form">
+                    <div class="row">
+                      <div class="small-6 columns">
+                        <label for="">Rental ID
+                          <select name="" id="update-rental-id-dropdown">
+                            <option value="select">- SELECT -</option>
+                          </select>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="small-6 columns float-left">
+                          <label>Rate</label>
+                          <input type="text" id="update-rental-rate" placeholder="$10"/>
+                        </div>
+                        <div class="small-6 columns">
+                          <label for="">Status
+                            <select name="" id="update-rental-status-dropdown">
+                              <option value="select">- SELECT -</option>
+                              <option value="new">new</option>
+                              <option value="pending">pending</option>
+                              <option value="active">active</option>
+                              <option value="canceled">canceled</option>
+                              <option value="closed">closed</option>
+                            </select>
+                          </label>
+                        </div>
+                      </div>
+                    <div class="row">
+                      <div class="small-12 columns">
+                          <input class="button small-4" id="update-rental-button" type="submit" value="Update Rental" />
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
       </div>
     </div>
     <script>      
@@ -375,6 +418,18 @@
             $("#rental-driver-dropdown, #create-vehicle-driver-dropdown")
               .append(
                 "<option value='" + response[i]._id + "'>" + response[i].firstName + "</option>"
+              );
+          }
+        });
+
+        //load rentals
+        $.ajax({
+          url: "/get-rentals"
+        }).done(function(response) {
+          for (let i = 0; i < response.length; i++) {
+            $("#update-rental-id-dropdown")
+              .append(
+                "<option value='" + response[i]._id + "'>" + response[i]._id + "</option>"
               );
           }
         });
@@ -407,7 +462,6 @@
           }).done(function(response) {
             let amtOfVehicles = response.vehicles.length;
             console.log(amtOfVehicles);
-
             $("#rental-vehicle-dropdown").html("");
             for (let i = 0; i < amtOfVehicles; i++) {
               $("#rental-vehicle-dropdown")
@@ -551,7 +605,32 @@
             console.log(err);
           });
         });
-      });
+
+        $("#update-rental-button").on("click", function() {
+          event.preventDefault();
+
+          let tempRental = {
+            _id: $("#update-rental-id-dropdown").val(),
+            rate: $("#update-rental-rate").val().trim(),
+            status: $("#update-rental-status-dropdown").val(),
+          };
+
+          $.post("/update-rental/" + tempRental._id, tempRental)
+          .then((res) => {
+            console.log("result");
+            console.log(res);
+            if (!res.errors) {
+              $("#create-rental-form").trigger("reset");
+              $("#rental-parking-spot-dropdown").html("");
+              $("#rental-vehicle-dropdown").html("");
+            } 
+          })
+          .catch((err) => {
+            console.log("error");
+            console.log(err);
+          });
+        });
+        });
     </script>
     <!-- Compressed JavaScript -->
   </body>

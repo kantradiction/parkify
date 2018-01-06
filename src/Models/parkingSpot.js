@@ -15,6 +15,11 @@ var ParkingSpotSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Owner"
     },
+    availability: {
+        type: String,
+        match: [/\b(available|occupied|inactive)\b/, "Please enter a valid status"],
+        default: "available"
+    },
     name: {
         type: String
     },

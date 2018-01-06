@@ -14,7 +14,7 @@ route.post("/create-owner", function(req, res) {
     //then instantiate latitude and longitude properties of the temp object
     let tempObject = req.body;
     let address = tempObject.street + tempObject.city + tempObject.state + tempObject.zip;
-    address.replace(/ /g,'');
+    // address.replace(/ /g,'');
     tempObject.loc = [];
 
     //use axios to pass address into google to return coordinates 
