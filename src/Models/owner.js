@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+const bcrypt = require('bcrypt');
 
 // Save a reference to the Schema constructor
 var Schema = mongoose.Schema;
@@ -6,24 +7,16 @@ var Schema = mongoose.Schema;
 // Using the Schema constructor, create a new UserSchema object
 // This is similar to a Sequelize model
 var OwnerSchema = new Schema({
-  // `date` must be of type Date. The default value is the current date
   ownerCreated: {
     type: Date,
     default: Date.now
   },
-  // `email` must be of type String
-  // `email` must be unique
-  // `email` must match the regex pattern below and throws a custom error message if it does not
   email: {
     type: String,
     unique: true,
     trim: true,
     match: [/.+\@.+\..+/, "Please enter a valid e-mail address"]
   },
-  // `password` must be of type String
-  // `password` will trim leading and trailing whitespace before it's saved
-  // `password` is a required field and throws a custom error message if not supplied
-  // `password` uses a custom validation function to only accept values 6 characters or more
   password: {
     type: String,
     trim: true,
@@ -70,6 +63,10 @@ var OwnerSchema = new Schema({
       message: '{VALUE} is not a valid phone number!'
     },*/
   },
+  type: {
+    type: String,
+    default: "owner"
+  },
   parkingSpots: [
     {
       type: Schema.Types.ObjectId,
@@ -83,6 +80,45 @@ var OwnerSchema = new Schema({
     }
   ]
 });
+
+//authenticate input against database
+/*OwnerSchema.statics.authenticate = function(email, password, callback) {
+  Owner
+    .findOne({ email: email})
+    .exec(function(err, owner) {
+      if(err) {
+        return callback(err);
+      } else if (!owner) {
+        let err = new Error("Owner Not Found.");
+        err.status = 401;
+        return callback(err);
+      }
+
+      bcrypt.compare(password, owner.password, function(err, result) {
+        if (result === true) {
+          return callback(null, owner);
+        } else {
+          return callback();
+        }
+      });
+    });
+};*/
+
+//hashing a password before saving it to the database
+OwnerSchema.pre('save', function(next) {
+  let owner = this;
+  bcrypt.hash(owner.password, 10, function(err, hash) {
+    if (err) {
+      return next(err);
+    }
+    owner.password = hash;
+    next();
+  })
+});
+
+OwnerSchema.methods.validPassword = function( password, callback ) {
+  bcrypt.compare(password, this.password, callback);
+};
 
 // This creates our model from the above schema, using mongoose's model method
 var Owner = mongoose.model("Owner", OwnerSchema);

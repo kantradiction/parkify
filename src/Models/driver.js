@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+const bcrypt = require('bcrypt');
 
 // Save a reference to the Schema constructor
 var Schema = mongoose.Schema;
@@ -75,6 +76,10 @@ var DriverSchema = new Schema({
     },*/
     required: [true, 'User phone number required']
   },
+  type: {
+    type: String,
+    default: "driver"
+  },
   vehicles: [
     {
       type: Schema.Types.ObjectId,
@@ -88,6 +93,22 @@ var DriverSchema = new Schema({
     }
   ]
 });
+
+//hashing a password before saving it to the database
+DriverSchema.pre('save', function(next) {
+  let driver = this;
+  bcrypt.hash(driver.password, 10, function(err, hash) {
+    if (err) {
+      return next(err);
+    }
+    driver.password = hash;
+    next();
+  })
+});
+
+DriverSchema.methods.validPassword = function( password, callback ) {
+  bcrypt.compare(password, this.password, callback);
+};
 
 // This creates our model from the above schema, using mongoose's model method
 var Driver = mongoose.model("Driver", DriverSchema);

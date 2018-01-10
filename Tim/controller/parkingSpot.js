@@ -137,7 +137,7 @@ module.exports = {
                     });
             });
     },
-    findNear: function(req, res, next) {
+    findNear: function(req, res) {
         let limit = req.query.limit || 10;
 
         // get the max distance or set it to 8 miles
@@ -158,7 +158,8 @@ module.exports = {
             loc: {
                 $nearSphere: coords,
                 $maxDistance: maxDistance
-            }
+            },
+            availability: "available"
         })
         .populate("ownerID")
         /*.limit(limit)*/

@@ -1,10 +1,20 @@
 var express = require("express");
 var route = express.Router();
+/*var app = express();*/
 var logger = require("morgan");
 var mongoose = require("mongoose");
 var axios = require("axios");
 var Owner = require("../Models/owner.js");
+var Driver = require("../Models/driver.js");
 var ParkingSpot = require("../Models/parkingSpot.js");
+var passport = require('passport');
+/*var Passport = require('passport').Passport,
+    ownerPassport = new Passport();*/
+var LocalStrategy = require('passport-local').Strategy;
+var parser = require('body-parser');
+var urlencodedParser = parser.urlencoded({extended : false});
+
+
 
 // Route to post our 'Create Owner' form submission to mongoDB via mongoose
 route.post("/create-owner", function(req, res) {
@@ -148,6 +158,100 @@ route.get("/delete-owner/:id", function(req, res) {
                 res.send(removed);
             }
         });
+    });
+});
+
+//login owner
+route.post("/owner/login-owner", function(req, res, next) {
+    passport.authenticate("owner", function(err, user, info) {
+        if (err) { return next(err); } 
+        if (!user) {
+            console.log("Cannot find owner");
+            return res.sendStatus(401);
+        }
+        req.logIn(user, function(err) {
+            console.log(user);
+            if (err) { return next(err ); }
+            console.log("Owner logged in");
+            return res.status(200).json({ownerID: user._id});
+        });
+    })(req, res, next);
+});
+
+//logout owner
+route.get('/owner/logout-owner',function(req, res){
+    // clears session from node but not from db
+    console.log(req.session);
+    req.logout(); 
+    //removes session from db
+    req.session.destroy(function (err) {
+        res.sendStatus(200);
+    });
+});
+
+passport.use('owner', new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+    passReqToCallback: true
+},   
+function(req, email, password, done) {
+  Owner.findOne({ email: email }, function (err, owner) {
+    if (err) { return done(err); }
+    if (!owner) {
+      return done(null, false, { message: 'Incorrect email.' });
+    }
+    owner.validPassword(password, function(err, res) {
+        if (err) {
+            console.log(err);
+            done(err);
+        }
+        if (res) {
+            done(null, owner);
+        } else {
+            done();
+        }
+    }); 
+  });
+}
+));
+
+passport.serializeUser(function(owner, done) {
+console.log("Serialize User Owner");
+console.log(owner);
+done(null, owner);
+});
+
+passport.deserializeUser(function(user, done) {
+/*Owner.findById(user._id, function(err, owner) {
+    done(err, owner);
+});*/
+if (user.type === "owner") {
+    console.log("deserialize user owner - owner");
+    Owner.findById(user._id, function(err, owner) {
+        done(err, owner);
+    });
+} else {
+    console.log("deserialize user owner - driver");
+    Driver.findById(user._id, function(err, driver) {
+        done(err, driver);
+    });
+}
+});
+
+const ensureAuthenticated = function(req, res, next){
+    console.log(req);
+if(req.isAuthenticated()) {
+   return next();
+}
+else
+    return res.status(401).json({
+        error: 'Owner not authenticated'
+    })
+}
+
+route.get('/owner/check-owner-auth', ensureAuthenticated, function(req, res){
+    res.status(200).json({
+        status: 'Owner Login successful!'
     });
 });
 
